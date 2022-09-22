@@ -2,7 +2,8 @@
 import time
 
 from flask import Flask
-from flask_rq import RQ
+from flask_rq2 import RQ
+
 
 app = Flask(__name__)
 app.debug = True
@@ -12,11 +13,16 @@ app.config['RQ_OTHER_PORT'] = 6379
 app.config['RQ_OTHER_PASSWORD'] = None
 app.config['RQ_OTHER_DB'] = 0
 
+
 rq = RQ(app)
 
-def takes_a_while(echo):
+
+@rq.job
+def takes_a_while(param):
+    print(1111)
     time.sleep(1)
-    return echo
+    print(1111)
+    return 1
 
 @rq.job
 def do_something(echo):
@@ -28,10 +34,6 @@ def do_something_low(echo):
     time.sleep(1)
     return echo
 
-@rq.job('low', connection='other')
-def do_something_low_on_connection(echo):
-    time.sleep(1)
-    return echo
 
 @app.route('/')
 def home():
@@ -39,7 +41,7 @@ def home():
 
 @app.route('/doit')
 def doit():
-    rq.enqueue(takes_a_while, 'do it')
+    job = takes_a_while.queue()
     return 'Success'
 
 @app.route('/doit2')
@@ -65,7 +67,7 @@ def doit5():
     do_something_low('doit5')
     return 'Success'
 
-@app.route('/doit6')
-def doit6():
-    do_something_low_on_connection('doit6')
-    return 'Success'
+
+
+
+

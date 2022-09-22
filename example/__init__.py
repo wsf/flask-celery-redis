@@ -11,7 +11,7 @@ from flask_rq import RQ
 app = Flask(__name__)
 
 app.config['RQ_OTHER_HOST'] = 'localhost'
-app.config['RQ_OTHER_PORT'] = 6789
+app.config['RQ_OTHER_PORT'] = 6379
 app.config['RQ_OTHER_PASSWORD'] = None
 app.config['RQ_OTHER_DB'] = 0
 
