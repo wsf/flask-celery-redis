@@ -41,14 +41,14 @@ def home():
 
 @app.route('/doit')
 def doit():
-    job = takes_a_while.queue()
-    return 'Success'
+    job = takes_a_while.queue('fd')
+    return f'Success {job.id} '
 
 @app.route('/doit2')
 def doit2():
     rq.enqueue(takes_a_while, 'do it 2',
                name="low", connection="other")
-    return 'Success'
+    return f'Success {rq.id} '
 
 @app.route('/doit3')
 def doit3():
