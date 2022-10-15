@@ -42,15 +42,20 @@ Implementación
 
 # Ejecución
 
+## Ejecutamos el flask
+gunicorn app:app 
+
 ## Ejecutamos el worker de celery
 
 celery -A nombre_archivo worker --loglevel=info
+
+> Ejemplo concreto: celery -A worker worker --loglevel=info
 
 
 ## Ejecutamos el monitor del worker de celery 
 
 celery -A nombre_archivo flower --port=5555
-
+> Ejemplo concreto: celery -A worker flower --port=5555
 
 # Referencias
 - Celery 
